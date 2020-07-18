@@ -17,7 +17,7 @@ import UpdatePostDto from './dto/updatePost.dto';
 import JwtAuthenticationGuard from '../authentication/jwt-authentication.guard';
 import FindOneParams from '../utils/findOneParams';
 import RequestWithUser from '../authentication/requestWithUser.interface';
-import { ApiHeader, ApiTags, ApiResponse } from '@nestjs/swagger';
+import { ApiHeader, ApiTags, ApiResponse, ApiBody, ApiOperation, ApiCookieAuth } from '@nestjs/swagger';
 
 @ApiTags('Posts')
 @Controller('posts')
@@ -43,6 +43,13 @@ export default class PostsController {
     return this.postsService.getPostById(Number(id));
   }
 
+  @ApiCookieAuth()
+  @ApiOperation({ summary: 'Add an article to API' })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  @ApiResponse({
+    status: 201,
+    description: 'Success for Add an article user',
+  })
   @Post()
   @UseGuards(JwtAuthenticationGuard)
   async createPost(@Body() post: CreatePostDto, @Req() req: RequestWithUser) {

@@ -12,7 +12,8 @@ import RegisterDto from './dto/register.dto';
 import RequestWithUser from './requestWithUser.interface';
 import { LocalAuthenticationGuard } from './localAuthentication.guard';
 import JwtAuthenticationGuard from './jwt-authentication.guard';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import LogInDto from './dto/logIn.dto';
 
 @ApiTags('Authentication')
 @Controller('authentication')
@@ -33,6 +34,8 @@ export class AuthenticationController {
     return this.authenticationService.register(registrationData);
   }
 
+  @ApiOperation({ summary: 'Log in to API' })
+  @ApiBody({type: LogInDto})
   @HttpCode(200)
   @UseGuards(LocalAuthenticationGuard)
   @Post('log-in')
